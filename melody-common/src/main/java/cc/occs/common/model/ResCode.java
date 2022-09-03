@@ -10,6 +10,10 @@ public enum ResCode {
 
     UNKNOWN_ERROR("Unknown Error"),
 
+    HAS_CHILD_RESOURCE(7373001, "Resource Has Child"),
+
+    ROLE_DUPLICATION(7373002, "Role Name Is Duplication")
+
     ;
 
     /* 状态码 */

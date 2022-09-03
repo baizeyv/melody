@@ -1,4 +1,4 @@
-package cc.occs.manage;
+package cc.occs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

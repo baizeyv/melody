@@ -3,6 +3,7 @@ melody:
   version: 1.0.0
   author: baizeyv
   link: "https://else.wiki"
+  docPath: "/doc"
 
 # Mybatis Plus Configuration
 mybatis-plus:
@@ -16,3 +17,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/melody
     username: root
     password: fahaxiki
+
+server:
+  port: 7373
