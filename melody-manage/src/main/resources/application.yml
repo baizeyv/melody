@@ -10,13 +10,20 @@ mybatis-plus:
   configuration:
     cache-enabled: true
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-  mapper-locations: classpath:*:mybatis/**/*Mapper.xml
+  mapper-locations: classpath*:mybatis/**/*Mapper.xml
 
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/melody
     username: root
     password: fahaxiki
+
+security:
+  jwt:
+    header: Authorization
+    expire: 604800 # 7 day
+    secret: cute-melody
+    tokenHeader: "$$MELODY$$~##auth##"
 
 server:
   port: 7373
