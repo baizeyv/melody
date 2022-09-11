@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.occs.auth.mapper.SysUserMapper">
+
+    <!--  Gain Role List By Username  -->
+    <select id="getRoleListByUsername" resultType="cc.occs.auth.domain.SysRole">
+        select
+            sr.id, sr.name, sr.available
+        from
+            sys_user su
+        left join
+            sys_ref_user_role srur
+        on
+            srur.user_id = su.id
+        left join
+            sys_role sr
+        on
+            sr.id = srur.role_id
+        where
+            su.username = #{username}
+        order by sr.id asc, sr.available desc
+    </select>
+
+    <!--  Gain UserDetail Object By Username  -->
+    <select id="getUserDetailByUsername" resultType="cc.occs.auth.domain.UserDetail">
+        select
+            id, username, password, available
+        from
+            sys_user
+        where
+            username = #{username}
+    </select>
+
+
+</mapper>

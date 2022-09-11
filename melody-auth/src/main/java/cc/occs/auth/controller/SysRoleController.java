@@ -1,7 +1,7 @@
 package cc.occs.auth.controller;
 
-import cc.occs.auth.domain.Role;
-import cc.occs.auth.service.RoleService;
+import cc.occs.auth.domain.SysRole;
+import cc.occs.auth.service.SysRoleService;
 import cc.occs.common.model.ResCode;
 import cc.occs.common.model.ResJson;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -12,37 +12,37 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth/role")
-public class RoleController {
+public class SysRoleController {
 
     @Autowired
-    private RoleService roleService;
+    private SysRoleService sysRoleService;
 
     @PostMapping("/list/{currentPage}/{pageSize}")
-    public ResJson getRoleList(@PathVariable Integer currentPage, @PathVariable Integer pageSize, @RequestBody Role role) {
-        QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-        if(!role.getName().equals("")) {
-            roleQueryWrapper.like("name", role.getName());
+    public ResJson getRoleList(@PathVariable Integer currentPage, @PathVariable Integer pageSize, @RequestBody SysRole sysRole) {
+        QueryWrapper<SysRole> roleQueryWrapper = new QueryWrapper<>();
+        if(!sysRole.getName().equals("")) {
+            roleQueryWrapper.like("name", sysRole.getName());
         }
-        if(role.getAvailable() != null) {
-            roleQueryWrapper.eq("available", role.getAvailable());
+        if(sysRole.getAvailable() != null) {
+            roleQueryWrapper.eq("available", sysRole.getAvailable());
         }
-        IPage pageList = roleService.page(new Page<>(currentPage, pageSize), roleQueryWrapper);
+        IPage pageList = sysRoleService.page(new Page<>(currentPage, pageSize), roleQueryWrapper);
         return ResJson.success(pageList);
     }
 
     @PostMapping("/modify")
-    public ResJson saveOrUpdate(@RequestBody Role role) {
+    public ResJson saveOrUpdate(@RequestBody SysRole sysRole) {
         /* ID 为空，则为插入新数据 */
-        if(role.getId() == null) {
+        if(sysRole.getId() == null) {
             /* 判断是否存在当前用户名的角色 */
-            QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
-            roleQueryWrapper.eq("name", role.getName());
-            Long count = roleService.count(roleQueryWrapper);
+            QueryWrapper<SysRole> roleQueryWrapper = new QueryWrapper<>();
+            roleQueryWrapper.eq("name", sysRole.getName());
+            long count = sysRoleService.count(roleQueryWrapper);
             if(count > 0) {
                 return ResJson.failure(ResCode.ROLE_DUPLICATION);
             }
         }
-        boolean flag = roleService.saveOrUpdate(role);
+        boolean flag = sysRoleService.saveOrUpdate(sysRole);
         if(flag) {
             return ResJson.success();
         }

@@ -1,7 +1,7 @@
 package cc.occs.auth.controller;
 
-import cc.occs.auth.domain.Resource;
-import cc.occs.auth.service.ResourceService;
+import cc.occs.auth.domain.SysResource;
+import cc.occs.auth.service.SysResourceService;
 import cc.occs.common.model.ResCode;
 import cc.occs.common.model.ResJson;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auth/resource")
-public class ResourceController {
+public class SysResourceController {
 
     @Autowired
-    private ResourceService resourceService;
+    private SysResourceService sysResourceService;
 
     /**
      * 获取所有资源
@@ -24,8 +24,8 @@ public class ResourceController {
      */
     @GetMapping("/getAllResource")
     public ResJson getAllResource() {
-        List<Resource> resourceList = resourceService.list();
-        return ResJson.success(resourceList);
+        List<SysResource> sysResourceList = sysResourceService.list();
+        return ResJson.success(sysResourceList);
     }
 
     /**
@@ -34,20 +34,20 @@ public class ResourceController {
      */
     @GetMapping("/getMenu")
     public ResJson getMenu() {
-        QueryWrapper<Resource> resourceQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysResource> resourceQueryWrapper = new QueryWrapper<>();
         resourceQueryWrapper.eq("type", 1);
-        List<Resource> menuList = resourceService.list(resourceQueryWrapper);
+        List<SysResource> menuList = sysResourceService.list(resourceQueryWrapper);
         return ResJson.success(menuList);
     }
 
     /**
      * 添加单独资源
-     * @param resource
+     * @param sysResource
      * @return
      */
     @PostMapping("/addSingleResource")
-    public ResJson addSingleResource(@RequestBody Resource resource) {
-        boolean flag = resourceService.save(resource);
+    public ResJson addSingleResource(@RequestBody SysResource sysResource) {
+        boolean flag = sysResourceService.save(sysResource);
         if(flag) {
             return ResJson.success();
         }
@@ -61,13 +61,13 @@ public class ResourceController {
      */
     @DeleteMapping("/deleteResource")
     public ResJson deleteResource(Long[] ids) {
-        QueryWrapper<Resource> resourceQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysResource> resourceQueryWrapper = new QueryWrapper<>();
         resourceQueryWrapper.in("parent_id", Arrays.asList(ids));
-        Long count = resourceService.count(resourceQueryWrapper);
+        long count = sysResourceService.count(resourceQueryWrapper);
         if(count != 0) {
             return ResJson.failure(ResCode.HAS_CHILD_RESOURCE);
         }
-        boolean flag = resourceService.removeBatchByIds(Arrays.asList(ids));
+        boolean flag = sysResourceService.removeByIds(Arrays.asList(ids));
         if(flag) {
             return ResJson.success();
         }
