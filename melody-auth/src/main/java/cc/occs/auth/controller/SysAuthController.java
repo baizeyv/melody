@@ -27,11 +27,6 @@ public class SysAuthController {
         return ResJson.success(userInfoResponse);
     }
 
-    @GetMapping("/tmp")
-    public ResJson tmp() {
-        return ResJson.success("TMP");
-    }
-
     @PostMapping("/signup")
     public ResJson signup(@RequestBody SysUser user) {
         if (StringUtils.isAnyBlank(user.getPassword(), user.getUsername())) {

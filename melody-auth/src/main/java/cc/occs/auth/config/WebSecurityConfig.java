@@ -45,10 +45,13 @@ public class WebSecurityConfig {
         authenticationManagerBuilder
                 // Set UserDetailsService
                 .userDetailsService(this.melodyUserDetailsService)
-                // Use BCrypt进行密码的hash
+                // Use BCrypt 进行密码的 hash
                 .passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * API White List
+     */
     private static final String[] WHITE_LIST_URLS = {
             "/auth/cert/signup",
             "/auth/cert/login",
@@ -70,7 +73,6 @@ public class WebSecurityConfig {
      * @return PasswordEncoder
      */
     public PasswordEncoder passwordEncoder() {
-//        return new PasswordEncoderUtils();
         return new BCryptPasswordEncoder();
     }
 
